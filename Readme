@@ -1,0 +1,10 @@
+This is a base laravel image.
+It must contain following:
+  - composer
+  - laravel
+  - npm
+  - gulp
+  - xdebug
+  - git
+
+Uses custom apache config files to change root directory to laravel's public folder '/var/www/html/public'.
