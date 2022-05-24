@@ -34,4 +34,4 @@ RUN chmod +x /usr/local/bin/install-php-extensions\
   } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
 # # Start the laravel server
-# CMD php artisan serve --host=0.0.0.0 --port=80
+CMD php artisan serve --host=0.0.0.0 --port=80
