@@ -33,5 +33,5 @@ RUN chmod +x /usr/local/bin/install-php-extensions\
     echo "xdebug.client_port=9003"; \
   } > /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 
-# # Start the laravel server
+# Start the laravel server
 CMD php artisan serve --host=0.0.0.0 --port=80
