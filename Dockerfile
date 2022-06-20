@@ -15,7 +15,7 @@ COPY ./apache/default/ /etc/apache2/sites-available
 # Make it executable
 RUN chmod +x /usr/local/bin/install-php-extensions\
 # PHP  extensions and composer using mlocati/docker-php-extension-installer
-  && install-php-extensions xdebug pdo_mysql @composer\
+  && install-php-extensions opcache xdebug pdo_mysql @composer\
 # Install laravel
   && composer create-project --prefer-dist laravel/laravel .\
   # Set laravel permissions
