@@ -25,6 +25,7 @@ RUN chmod +x /usr/local/bin/install-php-extensions\
   && apk update\
   && apk add git nodejs npm postfix curl\
   && npm install gulp -g\
+  && npm install @vue/cli -g\
   && npm install gulp --save-dev\
 #   Configure xdebug
   && { \
