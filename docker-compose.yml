@@ -1,0 +1,79 @@
+version: "3.9"
+
+services:
+  web-server:
+    image: vangoda/laravel-base:1.3
+    # image: php:7.4-alpine
+    volumes:
+      - laravel:/var/www/html
+      - ./shared:/var/www/html/shared
+      - ./xdebug.ini:/usr/local/etc/php/conf.d/xy-xdebug.ini
+    environment:
+      - VIRTUAL_HOST=course.laravel
+    networks:
+      - laravel
+      - nginx-proxy
+    tty: false
+  
+  db:
+    image: mysql:8.0
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - laravel
+      - nginx-proxy
+
+  phpmyadmin:
+    image: phpmyadmin
+    networks:
+      - mysql
+      - laravel
+      - nginx-proxy
+    environment:
+      - PMA_ABSOLUTE_URI=pma.localhost
+      - VIRTUAL_HOST=pma.localhost
+      - UPLOAD_LIMIT=100M
+      - HIDE_PHP_VERSION=true
+
+  # Caching using redis
+  redis:
+    image: redis
+    networks:
+      - laravel
+      - nginx-proxy
+
+  # Email server
+  mail-server:
+    image: mailhog/mailhog
+    environment:
+      - VIRTUAL_HOST = mail.laravel
+    networks:
+      - nginx-proxy
+    ports:
+      - "8025:8025"
+      - "587:1025"
+
+# Im using external reverse proxy as I run many docker containers
+# nginx-proxy:
+#   image: vangoda/nginx-proxy:latest
+#   ports:
+#     - "80:80"
+#   volumes:
+#     - /var/run/docker.sock:/tmp/docker.sock
+#   networks:
+#     - laravel
+
+volumes:
+  laravel:
+  db:
+
+networks:
+  mysql:
+  laravel:
+  nginx-proxy:
+    external: true
